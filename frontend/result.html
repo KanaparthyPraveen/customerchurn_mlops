@@ -1,635 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Prediction Result</title>
-
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            background: #f4f7fb;
-            color: #1f2937;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.5;
+            padding: 40px 20px;
         }
-
-        /* HEADER */
-
-        .header {
-            background: #111827;
-            color: white;
-            padding: 20px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .logo {
-            width: 48px;
-            height: 48px;
-            background: #2563eb;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .brand h1 {
-            font-size: 21px;
-        }
-
-        .brand p {
-            color: #9ca3af;
-            font-size: 12px;
-            margin-top: 3px;
-        }
-
-        .system-status {
-            color: #d1fae5;
-            font-size: 13px;
-        }
-
-        /* CONTAINER */
 
         .container {
-            width: 90%;
-            max-width: 750px;
-            margin: 45px auto;
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 32px;
         }
 
-        .card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 35px;
-            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.07);
+        header {
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
         }
 
-        .title {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .title h2 {
-            font-size: 25px;
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
             color: #111827;
+            margin-bottom: 4px;
+        }
+
+        p.subtitle {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .result-box {
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+            border: 1px solid transparent;
+        }
+
+        .result-box.churn {
+            background-color: #fff5f5;
+            border-color: #feb2b2;
+            color: #9b1c1c;
+        }
+
+        .result-box.no-churn {
+            background-color: #f0fdf4;
+            border-color: #bbf7d0;
+            color: #166534;
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
             margin-bottom: 6px;
         }
 
-        .title p {
-            color: #6b7280;
-            font-size: 13px;
+        .result-prob {
+            font-size: 15px;
+            font-weight: 500;
         }
 
-        /* RESULT */
-
-        .prediction-box {
-            text-align: center;
-            padding: 30px;
-            border-radius: 14px;
-            margin-bottom: 25px;
-        }
-
-        .prediction-box.high {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-        }
-
-        .prediction-box.medium {
-            background: #fffbeb;
-            border: 1px solid #fde68a;
-        }
-
-        .prediction-box.low {
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
-        }
-
-        .prediction-box h2 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .high h2 {
-            color: #dc2626;
-        }
-
-        .medium h2 {
-            color: #d97706;
-        }
-
-        .low h2 {
-            color: #059669;
-        }
-
-        .prediction-box p {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        /* PROBABILITY */
-
-        .risk-section {
-            margin-top: 25px;
-        }
-
-        .risk-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .risk-header span:last-child {
-            font-weight: bold;
-        }
-
-        .progress {
-            height: 12px;
-            width: 100%;
-            background: #e5e7eb;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: #2563eb;
-            transition: width 0.8s ease;
-        }
-
-        /* ASSESSMENT */
-
-        .assessment {
-            margin-top: 25px;
-            padding: 18px;
-            background: #f9fafb;
-            border-radius: 10px;
-            font-size: 13px;
-            line-height: 1.6;
-            color: #6b7280;
-        }
-
-        .assessment strong {
-            color: #374151;
-        }
-
-        /* BUTTONS */
-
-        .buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 28px;
-        }
-
-        .buttons button {
-            flex: 1;
-            padding: 13px;
-            border-radius: 9px;
-            font-size: 14px;
+        h2 {
+            font-size: 16px;
             font-weight: 600;
-            cursor: pointer;
+            color: #343a40;
+            margin-bottom: 12px;
         }
 
-        .back-btn {
-            border: 1px solid #d1d5db;
-            background: white;
-            color: #374151;
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-bottom: 24px;
         }
 
-        .back-btn:hover {
-            background: #f3f4f6;
+        .details-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e9ecef;
         }
 
-        .home-btn {
-            border: none;
-            background: #2563eb;
-            color: white;
+        .details-table td:first-child {
+            color: #6c757d;
+            width: 50%;
         }
 
-        .home-btn:hover {
-            background: #1d4ed8;
+        .details-table td:last-child {
+            font-weight: 500;
+            color: #212529;
         }
 
-        /* FOOTER */
-
-        footer {
+        .btn-action {
+            display: block;
+            width: 100%;
+            background-color: #0d6efd;
+            color: #ffffff;
             text-align: center;
-            padding: 20px;
-            color: #9ca3af;
-            font-size: 12px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
         }
 
-        @media (max-width: 650px) {
-
-            .system-status {
-                display: none;
-            }
-
-            .card {
-                padding: 22px;
-            }
-
-            .buttons {
-                flex-direction: column;
-            }
-
+        .btn-action:hover {
+            background-color: #0b5ed7;
         }
 
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            background-color: #f8f9fa;
+            color: #212529;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-decoration: none;
+            border: 1px solid #ced4da;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+        }
     </style>
-
 </head>
-
-
 <body>
 
+    <div class="container">
+        <header>
+            <h1>Prediction Result</h1>
+            <p class="subtitle">Outcome based on trained Machine Learning Model</p>
+        </header>
 
-    <!-- HEADER -->
-
-    <header class="header">
-
-        <div class="brand">
-
-            <div class="logo">
-                CC
-            </div>
-
-            <div>
-
-                <h1>
-                    Customer Churn Prediction System
-                </h1>
-
-                <p>
-                    Machine Learning Based Customer Churn Prediction
-                </p>
-
-            </div>
-
+        <div id="resultBox" class="result-box no-churn">
+            <div id="resultTitle" class="result-title">Analyzing...</div>
+            <div id="resultProb" class="result-prob"></div>
         </div>
 
+        <h2>Submitted Customer Information</h2>
+        <table class="details-table">
+            <tr>
+                <td>Gender</td>
+                <td id="valGender">--</td>
+            </tr>
+            <tr>
+                <td>Senior Citizen</td>
+                <td id="valSenior">--</td>
+            </tr>
+            <tr>
+                <td>Tenure</td>
+                <td id="valTenure">--</td>
+            </tr>
+            <tr>
+                <td>Monthly Charges</td>
+                <td id="valCharges">--</td>
+            </tr>
+            <tr>
+                <td>Contract</td>
+                <td id="valContract">--</td>
+            </tr>
+            <tr>
+                <td>Internet Service</td>
+                <td id="valInternet">--</td>
+            </tr>
+        </table>
 
-        <div class="system-status">
-            ● System Online
-        </div>
-
-    </header>
-
-
-    <!-- RESULT -->
-
-    <main class="container">
-
-        <section class="card">
-
-
-            <div class="title">
-
-                <h2>
-                    Prediction Result
-                </h2>
-
-                <p>
-                    Machine learning model prediction
-                </p>
-
-            </div>
-
-
-            <!-- PREDICTION -->
-
-            <div
-                id="predictionBox"
-                class="prediction-box"
-            >
-
-                <h2 id="predictionText">
-                    Loading...
-                </h2>
-
-                <p id="predictionDescription">
-                    Processing prediction result...
-                </p>
-
-            </div>
-
-
-            <!-- PROBABILITY -->
-
-            <div class="risk-section">
-
-                <div class="risk-header">
-
-                    <span>
-                        Churn Probability
-                    </span>
-
-                    <span id="riskPercentage">
-                        --
-                    </span>
-
-                </div>
-
-
-                <div class="progress">
-
-                    <div
-                        id="riskBar"
-                        class="progress-bar"
-                    >
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ASSESSMENT -->
-
-            <div class="assessment">
-
-                <strong>
-                    Assessment:
-                </strong>
-
-                <span id="assessmentText">
-                    --
-                </span>
-
-            </div>
-
-
-            <!-- BUTTONS -->
-
-            <div class="buttons">
-
-                <button
-                    class="back-btn"
-                    onclick="goBack()"
-                >
-                    ← New Prediction
-                </button>
-
-                <button
-                    class="home-btn"
-                    onclick="goHome()"
-                >
-                    🏠 Home
-                </button>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <footer>
-
-        Customer Churn Prediction System
-        •
-        Machine Learning Based Prediction
-
-    </footer>
-
+        <a href="/prediction" class="btn-action">Predict Another Customer</a>
+        <a href="/" class="btn-secondary">Back to Home</a>
+    </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const rawResult = sessionStorage.getItem("churnResult");
+            const rawInput = sessionStorage.getItem("customerInput");
 
-        function loadResult() {
-
-
-            const storedResult =
-                sessionStorage.getItem(
-                    "churnResult"
-                );
-
-
-            if (!storedResult) {
-
-                document.getElementById(
-                    "predictionText"
-                ).innerText =
-                    "No Prediction Available";
-
-                document.getElementById(
-                    "predictionDescription"
-                ).innerText =
-                    "Please enter customer information first.";
-
+            if (!rawResult) {
+                document.getElementById('resultTitle').innerText = "No prediction data found.";
+                document.getElementById('resultProb').innerText = "Please return to the form and submit customer details.";
                 return;
-
             }
 
+            try {
+                const result = JSON.parse(rawResult);
+                const input = rawInput ? JSON.parse(rawInput) : null;
 
-            const result =
-                JSON.parse(storedResult);
+                const resultBox = document.getElementById('resultBox');
+                const resultTitle = document.getElementById('resultTitle');
+                const resultProb = document.getElementById('resultProb');
 
+                const isChurn = result.prediction === 1 || (result.result && result.result.toLowerCase().includes("likely to churn") && !result.result.toLowerCase().includes("unlikely"));
+                const prob = result.probability !== undefined ? (result.probability * 100).toFixed(1) : null;
 
-            const prediction =
-                Number(result.prediction);
+                if (isChurn) {
+                    resultBox.className = "result-box churn";
+                    resultTitle.innerText = "Customer is likely to churn";
+                } else {
+                    resultBox.className = "result-box no-churn";
+                    resultTitle.innerText = "Customer is unlikely to churn";
+                }
 
+                if (prob !== null) {
+                    resultProb.innerText = `Churn Probability: ${prob}%`;
+                }
 
-            let risk;
+                if (input) {
+                    const contracts = ["Month-to-month", "One year", "Two year"];
+                    const internet = ["DSL", "Fiber optic"];
 
-
-            // USE MODEL PROBABILITY
-
-            if (
-                result.probability !== undefined
-            ) {
-
-                risk =
-                    Number(result.probability)
-                    * 100;
-
+                    document.getElementById('valGender').innerText = input.gender === 1 ? "Male" : "Female";
+                    document.getElementById('valSenior').innerText = input.senior_citizen === 1 ? "Yes" : "No";
+                    document.getElementById('valTenure').innerText = `${input.tenure} months`;
+                    document.getElementById('valCharges').innerText = `$${parseFloat(input.monthly_charges).toFixed(2)}`;
+                    document.getElementById('valContract').innerText = contracts[input.contract] || "Month-to-month";
+                    document.getElementById('valInternet').innerText = internet[input.internet_service] || "DSL";
+                }
+            } catch (e) {
+                console.error(e);
             }
-
-            else {
-
-                risk =
-                    prediction === 1
-                        ? 80
-                        : 20;
-
-            }
-
-
-            risk =
-                Math.max(
-                    0,
-                    Math.min(
-                        100,
-                        risk
-                    )
-                );
-
-
-            let riskLevel;
-
-            let description;
-
-            let assessment;
-
-
-            // HIGH
-
-            if (risk >= 70) {
-
-                riskLevel =
-                    "High Churn Risk";
-
-                description =
-                    "The customer has a high likelihood of leaving the service.";
-
-                assessment =
-                    "Consider proactive retention offers, customer support follow-up, and targeted customer engagement.";
-
-            }
-
-
-            // MEDIUM
-
-            else if (risk >= 40) {
-
-                riskLevel =
-                    "Medium Churn Risk";
-
-                description =
-                    "The customer shows some indicators associated with churn.";
-
-                assessment =
-                    "Monitor the customer and consider proactive engagement.";
-
-            }
-
-
-            // LOW
-
-            else {
-
-                riskLevel =
-                    "Low Churn Risk";
-
-                description =
-                    "The customer is currently unlikely to churn.";
-
-                assessment =
-                    "Continue regular customer engagement and monitoring.";
-
-            }
-
-
-            // DISPLAY
-
-            document.getElementById(
-                "predictionText"
-            ).innerText =
-                riskLevel;
-
-
-            document.getElementById(
-                "predictionDescription"
-            ).innerText =
-                description;
-
-
-            document.getElementById(
-                "riskPercentage"
-            ).innerText =
-                risk.toFixed(1) + "%";
-
-
-            document.getElementById(
-                "riskBar"
-            ).style.width =
-                risk + "%";
-
-
-            document.getElementById(
-                "assessmentText"
-            ).innerText =
-                assessment;
-
-
-            // CLASS
-
-            const box =
-                document.getElementById(
-                    "predictionBox"
-                );
-
-
-            box.classList.remove(
-                "high",
-                "medium",
-                "low"
-            );
-
-
-            if (risk >= 70) {
-
-                box.classList.add("high");
-
-            }
-
-            else if (risk >= 40) {
-
-                box.classList.add("medium");
-
-            }
-
-            else {
-
-                box.classList.add("low");
-
-            }
-
-        }
-
-
-        function goBack() {
-
-            window.location.href =
-                "/prediction.html";
-
-        }
-
-
-        function goHome() {
-
-            sessionStorage.removeItem(
-                "churnResult"
-            );
-
-            window.location.href =
-                "/";
-
-        }
-
-
-        loadResult();
-
+        });
     </script>
-
-
 </body>
-
 </html>

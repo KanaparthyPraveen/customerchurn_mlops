@@ -1,54 +1,69 @@
 from pathlib import Path
-import pandas as pd
+import sys
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score
 import mlflow
 import mlflow.sklearn
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
 
 project_path = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(project_path))
 
-data = pd.read_csv(project_path / "data" / "customer_churn.csv")
+from src.preprocessing import load_and_preprocess_data
 
-data = data.drop("customer_id", axis=1)
 
-data["gender"] = data["gender"].map({"Male": 1, "Female": 0})
-data["contract"] = data["contract"].map({
-    "Month-to-month": 0,
-    "One year": 1,
-    "Two year": 2
-})
-data["internet_service"] = data["internet_service"].map({
-    "DSL": 0,
-    "Fiber optic": 1
-})
-data["churn"] = data["churn"].map({"No": 0, "Yes": 1})
+def run_tracking():
+    print("=" * 50)
+    print("STARTING MLFLOW EXPERIMENT TRACKING")
+    print("=" * 50)
 
-X = data.drop("churn", axis=1)
-y = data["churn"]
+    X, y = load_and_preprocess_data()
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42
+    )
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+    db_path = project_path / "mlflow.db"
+    mlflow.set_tracking_uri(f"sqlite:///{db_path}")
+    mlflow.set_experiment("Customer Churn Prediction")
 
-mlflow.set_tracking_uri(f"sqlite:///{project_path / 'mlflow.db'}")
+    with mlflow.start_run(run_name="GradientBoosting_Pipeline"):
+        model = Pipeline([
+            ("scaler", StandardScaler()),
+            ("clf", GradientBoostingClassifier(
+                n_estimators=200,
+                max_depth=4,
+                learning_rate=0.1,
+                subsample=0.8,
+                min_samples_split=10,
+                min_samples_leaf=5,
+                random_state=42
+            ))
+        ])
 
-mlflow.set_experiment("Customer Churn Prediction")
+        model.fit(X_train, y_train)
 
-with mlflow.start_run():
+        predictions = model.predict(X_test)
+        accuracy = accuracy_score(y_test, predictions)
 
-    model = LogisticRegression()
-    model.fit(X_train, y_train)
+        mlflow.log_param("model_type", "GradientBoostingClassifier")
+        mlflow.log_param("n_estimators", 200)
+        mlflow.log_param("max_depth", 4)
+        mlflow.log_param("learning_rate", 0.1)
+        mlflow.log_param("test_size", 0.2)
+        mlflow.log_metric("accuracy", accuracy)
 
-    predictions = model.predict(X_test)
-    accuracy = accuracy_score(y_test, predictions)
+        mlflow.sklearn.log_model(
+            sk_model=model,
+            artifact_path="churn_model",
+            serialization_format="cloudpickle"
+        )
 
-    mlflow.log_param("model", "Logistic Regression")
-    mlflow.log_param("test_size", 0.2)
-    mlflow.log_metric("accuracy", accuracy)
+        print("Logged Model: GradientBoostingClassifier")
+        print(f"Logged Test Accuracy: {accuracy:.4f}")
+        print("MLflow tracking completed successfully!")
 
-    mlflow.sklearn.log_model(model, "model")
 
-    print("Model:", "Logistic Regression")
-    print("Accuracy:", accuracy)
-    print("MLflow tracking completed!")
+if __name__ == "__main__":
+    run_tracking()

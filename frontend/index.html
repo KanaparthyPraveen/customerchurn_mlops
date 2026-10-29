@@ -1,367 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Customer Churn Prediction System</title>
-
+    <title>Customer Churn Prediction</title>
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            background: #f4f7fb;
-            color: #1f2937;
-            display: flex;
-            flex-direction: column;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.5;
+            padding: 32px 16px;
         }
 
-        /* HEADER */
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 32px;
+        }
 
-        .header {
-            background: #111827;
-            color: white;
-            padding: 20px 7%;
+        /* Top Nav */
+        .top-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 16px;
+            margin-bottom: 28px;
         }
 
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
         }
 
-        .logo {
-            width: 48px;
-            height: 48px;
-            background: #2563eb;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .brand h1 {
-            font-size: 21px;
-        }
-
-        .brand p {
-            color: #9ca3af;
-            font-size: 12px;
-            margin-top: 3px;
-        }
-
-        .system-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .nav-links a {
+            color: #495057;
+            text-decoration: none;
             font-size: 13px;
-            color: #d1fae5;
+            margin-left: 16px;
         }
 
-        .status-dot {
-            width: 9px;
-            height: 9px;
-            background: #22c55e;
-            border-radius: 50%;
+        .nav-links a:hover {
+            color: #0d6efd;
+            text-decoration: underline;
         }
 
-        /* MAIN */
-
+        /* Hero */
         .hero {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 50px 20px;
+            margin-bottom: 28px;
         }
 
-        .welcome-card {
-            background: white;
-            width: 100%;
-            max-width: 850px;
-            text-align: center;
-            padding: 60px 40px;
-            border-radius: 20px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
-        }
-
-        .welcome-icon {
-            width: 90px;
-            height: 90px;
-            background: #eff6ff;
-            color: #2563eb;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-            font-size: 40px;
-            font-weight: bold;
-        }
-
-        .welcome-card h2 {
-            font-size: 34px;
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
             color: #111827;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
         }
 
-        .welcome-card .subtitle {
-            font-size: 17px;
-            color: #6b7280;
-            margin-bottom: 15px;
+        .lead {
+            color: #495057;
+            font-size: 15px;
+            margin-bottom: 20px;
         }
 
-        .description {
-            max-width: 650px;
-            margin: 0 auto 35px;
-            color: #6b7280;
+        .actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: #0d6efd;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
             font-size: 14px;
-            line-height: 1.7;
+            font-weight: 500;
+            border: 1px solid #0d6efd;
         }
 
-        /* FEATURES */
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
 
-        .features {
+        .btn-secondary {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #212529;
+            padding: 10px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid #ced4da;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 35px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
         }
 
-        .feature {
-            padding: 18px;
-            background: #f9fafb;
-            border-radius: 12px;
+        .stat-card {
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 12px 14px;
+            background: #ffffff;
         }
 
-        .feature h4 {
-            color: #111827;
-            margin-bottom: 5px;
-            font-size: 14px;
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6c757d;
+            margin-bottom: 4px;
+            font-weight: 600;
         }
 
-        .feature p {
-            color: #9ca3af;
-            font-size: 12px;
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0d6efd;
         }
 
-        /* BUTTON */
-
-        .start-btn {
-            border: none;
-            background: #2563eb;
-            color: white;
-            padding: 15px 40px;
-            border-radius: 10px;
+        /* Content Sections */
+        .section-title {
             font-size: 15px;
             font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
+            color: #212529;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 6px;
         }
 
-        .start-btn:hover {
-            background: #1d4ed8;
-            transform: translateY(-1px);
+        .features-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 28px;
         }
 
-        /* FOOTER */
+        .features-table th {
+            text-align: left;
+            background-color: #f8f9fa;
+            color: #495057;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            font-weight: 600;
+        }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #9ca3af;
+        .features-table td {
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            color: #212529;
+        }
+
+        .features-table tr:hover {
+            background-color: #fdfdfd;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid #e9ecef;
+            padding-top: 16px;
+            display: flex;
+            justify-content: space-between;
             font-size: 12px;
+            color: #6c757d;
         }
 
-        /* MOBILE */
-
-        @media (max-width: 700px) {
-
-            .system-status {
-                display: none;
-            }
-
-            .welcome-card {
-                padding: 40px 20px;
-            }
-
-            .welcome-card h2 {
-                font-size: 26px;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-
+        .footer a {
+            color: #0d6efd;
+            text-decoration: none;
         }
 
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-primary, .btn-secondary {
+                text-align: center;
+            }
+        }
     </style>
-
 </head>
-
-
 <body>
 
-
-    <!-- HEADER -->
-
-    <header class="header">
-
-        <div class="brand">
-
-            <div class="logo">
-                CC
+    <div class="container">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <span class="brand">Customer Churn ML</span>
+            <div class="nav-links">
+                <a href="/prediction">Predict</a>
+                <a href="/docs" target="_blank">Docs</a>
+                <a href="/health" target="_blank">Health</a>
             </div>
+        </div>
 
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Customer Churn Prediction</h1>
+            <p class="lead">
+                A supervised machine learning system that evaluates account attributes, contract commitments, and tenure to calculate customer churn probability.
+            </p>
+            <div class="actions">
+                <a href="/prediction" class="btn-primary">Open Prediction Form</a>
+                <a href="/docs" target="_blank" class="btn-secondary">View API Documentation</a>
+            </div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Model Accuracy</div>
+                <div class="stat-value">90.0%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Algorithm</div>
+                <div class="stat-value" style="font-size: 15px; padding-top: 3px;">Gradient Boost</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Training Size</div>
+                <div class="stat-value">6,000</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">System Status</div>
+                <div class="stat-value" style="color: #198754;">Online</div>
+            </div>
+        </div>
+
+        <!-- Required Inputs -->
+        <div class="section-title">Model Input Parameters</div>
+        <table class="features-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Contract</td>
+                    <td>Categorical</td>
+                    <td>Month-to-month, One year, or Two year commitment</td>
+                </tr>
+                <tr>
+                    <td>Tenure</td>
+                    <td>Integer</td>
+                    <td>Number of months the customer has stayed with the company</td>
+                </tr>
+                <tr>
+                    <td>Monthly Charges</td>
+                    <td>Float ($)</td>
+                    <td>Current recurring monthly service billing amount</td>
+                </tr>
+                <tr>
+                    <td>Internet Service</td>
+                    <td>Categorical</td>
+                    <td>Connection type: DSL or Fiber optic</td>
+                </tr>
+                <tr>
+                    <td>Senior Citizen</td>
+                    <td>Binary (0/1)</td>
+                    <td>Whether customer is 65 years or older</td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>Binary</td>
+                    <td>Account holder gender (Male / Female)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Output details -->
+        <div class="section-title">Inference Output</div>
+        <p style="font-size: 13px; color: #495057; margin-bottom: 24px;">
+            The model returns a binary classification (Churn / No Churn), calibrated churn probability (0–100%), risk category classification (Critical, Elevated, Low), and high-impact account risk factors.
+        </p>
+
+        <!-- Footer -->
+        <div class="footer">
+            <span>Customer Churn Prediction System</span>
             <div>
-
-                <h1>
-                    Customer Churn Prediction System
-                </h1>
-
-                <p>
-                    Machine Learning Based Customer Churn Prediction
-                </p>
-
+                <a href="/prediction">Run Inference</a> &middot;
+                <a href="/docs">REST API</a> &middot;
+                <a href="/health">Health Status</a>
             </div>
-
         </div>
-
-
-        <div class="system-status">
-
-            <span class="status-dot"></span>
-
-            System Online
-
-        </div>
-
-    </header>
-
-
-    <!-- WELCOME -->
-
-    <main class="hero">
-
-        <section class="welcome-card">
-
-            <div class="welcome-icon">
-                CC
-            </div>
-
-            <h2>
-                Welcome
-            </h2>
-
-            <p class="subtitle">
-                Customer Churn Prediction System
-            </p>
-
-            <p class="description">
-
-                This application uses a machine learning model
-                to analyze customer information and predict the
-                likelihood of customer churn.
-
-            </p>
-
-
-            <!-- FEATURES -->
-
-            <div class="features">
-
-                <div class="feature">
-
-                    <h4>
-                        Machine Learning
-                    </h4>
-
-                    <p>
-                        ML-based churn prediction
-                    </p>
-
-                </div>
-
-
-                <div class="feature">
-
-                    <h4>
-                        Risk Analysis
-                    </h4>
-
-                    <p>
-                        Customer churn risk assessment
-                    </p>
-
-                </div>
-
-
-                <div class="feature">
-
-                    <h4>
-                        Prediction
-                    </h4>
-
-                    <p>
-                        Churn probability estimation
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- START BUTTON -->
-
-            <button
-                class="start-btn"
-                onclick="startPrediction()"
-            >
-
-                Start Prediction →
-
-            </button>
-
-        </section>
-
-    </main>
-
-
-    <footer>
-
-        Customer Churn Prediction System
-        •
-        Machine Learning Based Prediction
-
-    </footer>
-
-
-    <script>
-
-        function startPrediction() {
-
-            window.location.href = "/prediction.html";
-
-        }
-
-    </script>
-
+    </div>
 
 </body>
-
 </html>

@@ -1,691 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Customer Information</title>
-
+    <title>Customer Information Form</title>
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            background: #f4f7fb;
-            color: #1f2937;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.5;
+            padding: 40px 20px;
         }
-
-        /* HEADER */
-
-        .header {
-            background: #111827;
-            color: white;
-            padding: 20px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .logo {
-            width: 48px;
-            height: 48px;
-            background: #2563eb;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .brand h1 {
-            font-size: 21px;
-        }
-
-        .brand p {
-            color: #9ca3af;
-            font-size: 12px;
-            margin-top: 3px;
-        }
-
-        .system-status {
-            color: #d1fae5;
-            font-size: 13px;
-        }
-
-        /* CONTAINER */
 
         .container {
-            width: 90%;
-            max-width: 900px;
-            margin: 45px auto;
-        }
-
-        .card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
             padding: 32px;
-            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.07);
         }
 
-        .card-title {
-            margin-bottom: 28px;
+        header {
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
         }
 
-        .card-title h2 {
-            font-size: 24px;
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
             color: #111827;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
-        .card-title p {
-            color: #6b7280;
-            font-size: 13px;
-        }
-
-        /* FORM */
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 22px;
+        p.subtitle {
+            color: #6c757d;
+            font-size: 14px;
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 18px;
         }
 
         label {
-            font-size: 13px;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 8px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #343a40;
+            margin-bottom: 6px;
         }
 
-        input,
-        select {
+        .help-text {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+
+        input[type="number"], select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 9px;
-            background: #f9fafb;
+            padding: 10px 12px;
             font-size: 14px;
+            color: #212529;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
             outline: none;
         }
 
-        input:focus,
-        select:focus {
-            border-color: #2563eb;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        input[type="number"]:focus, select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
         }
 
-        .hint {
-            margin-top: 5px;
-            color: #9ca3af;
-            font-size: 11px;
-        }
-
-        /* BUTTONS */
-
-        .buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 30px;
-        }
-
-        .predict-btn,
-        .back-btn {
-            padding: 14px 25px;
-            border-radius: 9px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .predict-btn {
-            flex: 1;
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background-color: #0d6efd;
+            color: #ffffff;
+            text-align: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
             border: none;
-            background: #2563eb;
-            color: white;
+            cursor: pointer;
+            margin-top: 24px;
         }
 
-        .predict-btn:hover {
-            background: #1d4ed8;
+        .btn-submit:hover:not(:disabled) {
+            background-color: #0b5ed7;
         }
 
-        .predict-btn:disabled {
-            background: #93c5fd;
+        .btn-submit:disabled {
+            background-color: #6c757d;
             cursor: not-allowed;
         }
 
-        .back-btn {
-            border: 1px solid #d1d5db;
-            background: white;
-            color: #374151;
+        .btn-fill {
+            background: none;
+            border: none;
+            color: #0d6efd;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+            margin-bottom: 16px;
+            display: inline-block;
         }
 
-        .back-btn:hover {
-            background: #f3f4f6;
-        }
-
-        /* ERROR */
-
-        #errorMessage {
+        .error-box {
             display: none;
-            margin-top: 20px;
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
             padding: 12px;
-            border-radius: 8px;
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #dc2626;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
             font-size: 13px;
         }
 
-        /* FOOTER */
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #9ca3af;
-            font-size: 12px;
+        .footer-link a {
+            color: #6c757d;
+            text-decoration: none;
         }
 
-        @media (max-width: 650px) {
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .system-status {
-                display: none;
-            }
-
-            .card {
-                padding: 22px;
-            }
-
-            .buttons {
-                flex-direction: column;
-            }
-
+        .footer-link a:hover {
+            text-decoration: underline;
         }
-
     </style>
-
 </head>
-
-
 <body>
 
+    <div class="container">
+        <header>
+            <h1>Customer Details</h1>
+            <p class="subtitle">Fill in the fields below to calculate churn probability.</p>
+        </header>
 
-    <!-- HEADER -->
+        <button type="button" class="btn-fill" onclick="fillSample()">Fill with sample data</button>
 
-    <header class="header">
-
-        <div class="brand">
-
-            <div class="logo">
-                CC
+        <form id="churnForm" onsubmit="submitForm(event)">
+            
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
             </div>
 
-            <div>
-
-                <h1>
-                    Customer Churn Prediction System
-                </h1>
-
-                <p>
-                    Machine Learning Based Customer Churn Prediction
-                </p>
-
+            <div class="form-group">
+                <label for="senior_citizen">Senior Citizen</label>
+                <select id="senior_citizen" name="senior_citizen" required>
+                    <option value="0">No (Age under 65)</option>
+                    <option value="1">Yes (Age 65 or older)</option>
+                </select>
             </div>
 
+            <div class="form-group">
+                <label for="tenure">Tenure (in months)</label>
+                <input type="number" id="tenure" name="tenure" min="1" max="72" value="12" required>
+                <div class="help-text">Number of months the customer has stayed with the company (1 - 72).</div>
+            </div>
+
+            <div class="form-group">
+                <label for="monthly_charges">Monthly Charges ($)</label>
+                <input type="number" id="monthly_charges" name="monthly_charges" step="0.5" min="20" max="120" value="70.0" required>
+                <div class="help-text">Current monthly bill amount in USD (20.00 - 120.00).</div>
+            </div>
+
+            <div class="form-group">
+                <label for="contract">Contract Type</label>
+                <select id="contract" name="contract" required>
+                    <option value="0">Month-to-month</option>
+                    <option value="1">One year</option>
+                    <option value="2">Two year</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="internet_service">Internet Service</label>
+                <select id="internet_service" name="internet_service" required>
+                    <option value="0">DSL</option>
+                    <option value="1">Fiber optic</option>
+                </select>
+            </div>
+
+            <div id="errorBox" class="error-box"></div>
+
+            <button type="submit" id="submitBtn" class="btn-submit">Predict Customer Churn</button>
+        </form>
+
+        <div class="footer-link">
+            <a href="/">← Back to Home</a>
         </div>
-
-
-        <div class="system-status">
-            ● System Online
-        </div>
-
-    </header>
-
-
-    <!-- MAIN -->
-
-    <main class="container">
-
-        <section class="card">
-
-            <div class="card-title">
-
-                <h2>
-                    Customer Information
-                </h2>
-
-                <p>
-                    Customer details used for churn prediction.
-                </p>
-
-            </div>
-
-
-            <div class="form-grid">
-
-
-                <!-- GENDER -->
-
-                <div class="form-group">
-
-                    <label for="gender">
-                        Gender
-                    </label>
-
-                    <select id="gender">
-
-                        <option value="">
-                            Select gender
-                        </option>
-
-                        <option value="0">
-                            Female
-                        </option>
-
-                        <option value="1">
-                            Male
-                        </option>
-
-                    </select>
-
-                    <span class="hint">
-                        Customer gender
-                    </span>
-
-                </div>
-
-
-                <!-- SENIOR CITIZEN -->
-
-                <div class="form-group">
-
-                    <label for="senior">
-                        Senior Citizen
-                    </label>
-
-                    <select id="senior">
-
-                        <option value="">
-                            Select option
-                        </option>
-
-                        <option value="0">
-                            No
-                        </option>
-
-                        <option value="1">
-                            Yes
-                        </option>
-
-                    </select>
-
-                    <span class="hint">
-                        Senior citizen status
-                    </span>
-
-                </div>
-
-
-                <!-- TENURE -->
-
-                <div class="form-group">
-
-                    <label for="tenure">
-                        Tenure (Months)
-                    </label>
-
-                    <input
-                        id="tenure"
-                        type="number"
-                        min="0"
-                        placeholder="Example: 24"
-                    >
-
-                    <span class="hint">
-                        Number of months with the company
-                    </span>
-
-                </div>
-
-
-                <!-- MONTHLY CHARGES -->
-
-                <div class="form-group">
-
-                    <label for="charges">
-                        Monthly Charges
-                    </label>
-
-                    <input
-                        id="charges"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        placeholder="Example: 65.50"
-                    >
-
-                    <span class="hint">
-                        Monthly billing amount
-                    </span>
-
-                </div>
-
-
-                <!-- CONTRACT -->
-
-                <div class="form-group">
-
-                    <label for="contract">
-                        Contract Type
-                    </label>
-
-                    <select id="contract">
-
-                        <option value="">
-                            Select contract
-                        </option>
-
-                        <option value="0">
-                            Month-to-Month
-                        </option>
-
-                        <option value="1">
-                            One Year
-                        </option>
-
-                    </select>
-
-                    <span class="hint">
-                        Customer contract
-                    </span>
-
-                </div>
-
-
-                <!-- INTERNET -->
-
-                <div class="form-group">
-
-                    <label for="internet">
-                        Internet Service
-                    </label>
-
-                    <select id="internet">
-
-                        <option value="">
-                            Select service
-                        </option>
-
-                        <option value="0">
-                            No Internet
-                        </option>
-
-                        <option value="1">
-                            Internet Service
-                        </option>
-
-                    </select>
-
-                    <span class="hint">
-                        Internet service status
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <!-- ERROR -->
-
-            <div id="errorMessage"></div>
-
-
-            <!-- BUTTONS -->
-
-            <div class="buttons">
-
-                <button
-                    class="back-btn"
-                    onclick="goHome()"
-                >
-                    ← Home
-                </button>
-
-                <button
-                    id="predictButton"
-                    class="predict-btn"
-                    onclick="predict()"
-                >
-                    Predict Customer Churn
-                </button>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <footer>
-
-        Customer Churn Prediction System
-        •
-        Machine Learning Based Prediction
-
-    </footer>
-
+    </div>
 
     <script>
-
-        function goHome() {
-
-            window.location.href = "/";
-
+        function fillSample() {
+            document.getElementById('gender').value = '1';
+            document.getElementById('senior_citizen').value = '0';
+            document.getElementById('tenure').value = '8';
+            document.getElementById('monthly_charges').value = '75.0';
+            document.getElementById('contract').value = '0';
+            document.getElementById('internet_service').value = '1';
         }
 
+        async function submitForm(e) {
+            e.preventDefault();
 
-        async function predict() {
+            const form = document.getElementById('churnForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const errorBox = document.getElementById('errorBox');
 
+            errorBox.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Calculating...';
 
-            const button =
-                document.getElementById(
-                    "predictButton"
-                );
-
-            const error =
-                document.getElementById(
-                    "errorMessage"
-                );
-
-
-            error.style.display = "none";
-
-
-            // GET VALUES
-
-            const gender =
-                document.getElementById(
-                    "gender"
-                ).value;
-
-            const senior =
-                document.getElementById(
-                    "senior"
-                ).value;
-
-            const tenure =
-                document.getElementById(
-                    "tenure"
-                ).value;
-
-            const charges =
-                document.getElementById(
-                    "charges"
-                ).value;
-
-            const contract =
-                document.getElementById(
-                    "contract"
-                ).value;
-
-            const internet =
-                document.getElementById(
-                    "internet"
-                ).value;
-
-
-            // VALIDATION
-
-            if (
-                gender === "" ||
-                senior === "" ||
-                tenure === "" ||
-                charges === "" ||
-                contract === "" ||
-                internet === ""
-            ) {
-
-                error.innerText =
-                    "Please complete all customer information.";
-
-                error.style.display = "block";
-
-                return;
-
-            }
-
-
-            // DATA
-
-            const data = {
-
-                gender: Number(gender),
-
-                senior_citizen: Number(senior),
-
-                tenure: Number(tenure),
-
-                monthly_charges: Number(charges),
-
-                contract: Number(contract),
-
-                internet_service: Number(internet)
-
+            const payload = {
+                gender: parseInt(form.gender.value),
+                senior_citizen: parseInt(form.senior_citizen.value),
+                tenure: parseInt(form.tenure.value),
+                monthly_charges: parseFloat(form.monthly_charges.value),
+                contract: parseInt(form.contract.value),
+                internet_service: parseInt(form.internet_service.value)
             };
 
-
-            // BUTTON
-
-            button.disabled = true;
-
-            button.innerText =
-                "Analyzing Customer...";
-
-
             try {
+                const res = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-
-                // API CALL
-
-                const response =
-                    await fetch(
-                        "/predict",
-                        {
-
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify(data)
-
-                        }
-                    );
-
-
-                const result =
-                    await response.json();
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        result.detail ||
-                        "Prediction failed."
-                    );
-
+                if (!res.ok) {
+                    throw new Error('Server returned an error.');
                 }
 
+                const result = await res.json();
+                sessionStorage.setItem('churnResult', JSON.stringify(result));
+                sessionStorage.setItem('customerInput', JSON.stringify(payload));
 
-                // SAVE RESULT
-
-                sessionStorage.setItem(
-                    "churnResult",
-                    JSON.stringify(result)
-                );
-
-
-                // OPEN RESULT PAGE
-
-                window.location.href =
-                    "/result.html";
-
+                window.location.href = '/result.html';
+            } catch (err) {
+                errorBox.innerText = 'Unable to get prediction. Please ensure the server is running.';
+                errorBox.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Predict Customer Churn';
             }
-
-
-            catch (err) {
-
-                error.innerText =
-                    "Unable to connect to the prediction service. Make sure the FastAPI server is running.";
-
-                error.style.display = "block";
-
-                console.error(err);
-
-            }
-
-
-            finally {
-
-                button.disabled = false;
-
-                button.innerText =
-                    "Predict Customer Churn";
-
-            }
-
         }
-
     </script>
-
-
 </body>
-
 </html>
